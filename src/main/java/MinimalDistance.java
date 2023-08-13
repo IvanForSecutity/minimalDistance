@@ -19,19 +19,16 @@ public class MinimalDistance {
         int firstWordLength = word1.length();
         int secondWordLength = word2.length();
         int[][] editDistanceMatrix = new int[firstWordLength + 1][secondWordLength + 1];
-        
-        for (int i = 0; i <= firstWordLength; i++) {
-            editDistanceMatrix[i][0] = i;
-        }
-        for (int j = 0; j <= secondWordLength; j++) {
-            editDistanceMatrix[0][j] = j;
-        }
-        
+
+        fillFirstRowWithWord1Indexes(firstWordLength, editDistanceMatrix);
+        fillFirstColumnWithWord2Indexes(secondWordLength, editDistanceMatrix);
+
         for (int i = 1; i <= firstWordLength; i++) {
             for (int j = 1; j <= secondWordLength; j++) {
                 int deletion = editDistanceMatrix[i][j - 1] + 1;
                 int insertion = editDistanceMatrix[i - 1][j] + 1;
                 int substitution = editDistanceMatrix[i - 1][j - 1] + (word1.charAt(i - 1) == word2.charAt(j - 1) ? 0 : 1);
+
                 editDistanceMatrix[i][j] = Math.min(Math.min(deletion, insertion), substitution);
             }
         }
@@ -67,6 +64,18 @@ public class MinimalDistance {
                 curI--;
                 curJ--;
             }
+        }
+    }
+
+    private static void fillFirstColumnWithWord2Indexes(int secondWordLength, int[][] editDistanceMatrix) {
+        for (int j = 0; j <= secondWordLength; j++) {
+            editDistanceMatrix[0][j] = j;
+        }
+    }
+
+    private static void fillFirstRowWithWord1Indexes(int firstWordLength, int[][] editDistanceMatrix) {
+        for (int i = 0; i <= firstWordLength; i++) {
+            editDistanceMatrix[i][0] = i;
         }
     }
 }
