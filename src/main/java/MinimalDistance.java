@@ -1,8 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class MinimalDistance {
-    public static void main(String[] args) {
-        minimalDistance(args[0], args[1]);
+
+    protected static class Result {
+        int distance;
+        int[][] editDistanceMatrix;
+
+        Result(int distance, int[][] editDistanceMatrix) {
+            this.distance = distance;
+            this.editDistanceMatrix = editDistanceMatrix;
+        }
     }
-    
+
+    public static void main(String[] args) {
+        Result result = getMinimalDistanceCalculationResult(args[0], args[1]);
+        System.out.println("Minimal distance: " + result.distance);
+        List<String> transformationTrack = getTransformationTrack(args[0], args[1], result);
+        for (String step : transformationTrack) {
+            System.out.println(step);
+        }
+    }
+
     public static String[] insertIntoArray(String[] arr, int index, String newItem) {
         String[] result = new String[arr.length + 1];
         for (int i = 0; i < index; i++) {
@@ -14,8 +33,8 @@ public class MinimalDistance {
         }
         return result;
     }
-    
-    public static void minimalDistance(String word1, String word2) {
+
+    public static Result getMinimalDistanceCalculationResult(String word1, String word2) {
         int firstWordLength = word1.length();
         int secondWordLength = word2.length();
         int[][] editDistanceMatrix = new int[firstWordLength + 1][secondWordLength + 1];
@@ -32,14 +51,19 @@ public class MinimalDistance {
                 editDistanceMatrix[i][j] = Math.min(Math.min(deletion, insertion), substitution);
             }
         }
-        
-        int distance = editDistanceMatrix[firstWordLength][secondWordLength];
-        System.out.println(distance);
-        int curI = firstWordLength;
-        int curJ = secondWordLength;
+
+        return new Result(editDistanceMatrix[firstWordLength][secondWordLength], editDistanceMatrix);
+    }
+
+    public static List<String> getTransformationTrack(String word1, String word2, Result result) {
+        List<String> transformationSteps = new ArrayList<>();
+        int distance = result.distance;
+        int[][] editDistanceMatrix = result.editDistanceMatrix;
+        int curI = word1.length();
+        int curJ = word2.length();
         String[] curWord = word2.split("");
-        
-        System.out.println(String.join("", curWord));
+
+        transformationSteps.add(String.join("", curWord));
         while (distance > 0) {
             int deletion = editDistanceMatrix[curI][curJ - 1];
             int insertion = editDistanceMatrix[curI - 1][curJ];
@@ -49,22 +73,24 @@ public class MinimalDistance {
                 curI--;
                 curJ--;
                 distance = substitution;
-                System.out.println(String.join("", curWord));
+                transformationSteps.add(String.join("", curWord));
             } else if (deletion < distance) {
                 curWord[curJ - 1] = "";
                 curJ--;
                 distance = deletion;
-                System.out.println(String.join("", curWord));
+                transformationSteps.add(String.join("", curWord));
             } else if (insertion < distance) {
                 curWord = insertIntoArray(curWord, curJ, Character.toString(word1.charAt(curI - 1)));
                 curI--;
                 distance = insertion;
-                System.out.println(String.join("", curWord));
+                transformationSteps.add(String.join("", curWord));
             } else {
                 curI--;
                 curJ--;
             }
         }
+
+        return transformationSteps;
     }
 
     private static void fillFirstColumnWithWord2Indexes(int secondWordLength, int[][] editDistanceMatrix) {

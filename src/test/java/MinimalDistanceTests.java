@@ -1,35 +1,51 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class MinimalDistanceTests {
 
     //TODO: in task description, w1 should be converted to w2, but in the minimalDistance, w2 is converted to w1
 
     @Test
     public void testFirstWordEmpty() {
-        MinimalDistance.minimalDistance("", "kitten");
+        assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("", "kitten").distance);
     }
 
     @Test
     public void testSecondWordEmpty() {
-        MinimalDistance.minimalDistance("kitten", "");
+        assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("kitten", "").distance);
     }
+
     @Test
     public void testBothWordsEmpty() {
-        MinimalDistance.minimalDistance("", "");
+        assertEquals(0, MinimalDistance.getMinimalDistanceCalculationResult("", "").distance);
     }
 
     @Test
     public void testBasicExample() {
-        MinimalDistance.minimalDistance("kitten", "sitting");
+        assertEquals(3, MinimalDistance.getMinimalDistanceCalculationResult("kitten", "sitting").distance);
     }
 
     @Test
     public void testShift1() {
-        MinimalDistance.minimalDistance("mirror", "irror");
+        assertEquals(1, MinimalDistance.getMinimalDistanceCalculationResult("mirror", "irror").distance);
     }
+
     @Test
     public void testShift2() {
-        MinimalDistance.minimalDistance("mirror", "irrors");
+        assertEquals(2, MinimalDistance.getMinimalDistanceCalculationResult("mirror", "irrors").distance);
+    }
+
+    @Test
+    public void testGetTransformationTrackExample() {
+        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult("kitten", "sitting");
+        List<String> transformationTrack = MinimalDistance.getTransformationTrack("kitten", "sitting", result);
+
+        List<String> expectedTrack = Arrays.asList("sitting", "sittin", "sitten", "kitten");
+        assertEquals(expectedTrack, transformationTrack);
     }
 
 }
