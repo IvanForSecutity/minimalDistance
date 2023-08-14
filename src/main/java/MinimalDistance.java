@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MinimalDistance {
 
-    protected record Result(int distance, int[][] editDistanceMatrix) { }
+    record Result(int distance, int[][] editDistanceMatrix) { }
 
     public static void main(String[] args) {
         if (args.length != 2) {
