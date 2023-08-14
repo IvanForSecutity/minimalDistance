@@ -9,32 +9,32 @@ public class MinimalDistanceTests {
 
     @Test
     public void testFirstWordEmpty() {
-        assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("", "kitten").distance);
+        assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("", "kitten").distance());
     }
 
     @Test
     public void testSecondWordEmpty() {
-        assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("kitten", "").distance);
+        assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("kitten", "").distance());
     }
 
     @Test
     public void testBothWordsEmpty() {
-        assertEquals(0, MinimalDistance.getMinimalDistanceCalculationResult("", "").distance);
+        assertEquals(0, MinimalDistance.getMinimalDistanceCalculationResult("", "").distance());
     }
 
     @Test
     public void testBasicExample() {
-        assertEquals(3, MinimalDistance.getMinimalDistanceCalculationResult("kitten", "sitting").distance);
+        assertEquals(3, MinimalDistance.getMinimalDistanceCalculationResult("kitten", "sitting").distance());
     }
 
     @Test
     public void testShift1() {
-        assertEquals(1, MinimalDistance.getMinimalDistanceCalculationResult("mirror", "irror").distance);
+        assertEquals(1, MinimalDistance.getMinimalDistanceCalculationResult("mirror", "irror").distance());
     }
 
     @Test
     public void testShift2() {
-        assertEquals(2, MinimalDistance.getMinimalDistanceCalculationResult("mirror", "irrors").distance);
+        assertEquals(2, MinimalDistance.getMinimalDistanceCalculationResult("mirror", "irrors").distance());
     }
 
     @Test

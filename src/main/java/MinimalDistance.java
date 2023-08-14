@@ -4,15 +4,7 @@ import java.util.List;
 
 public class MinimalDistance {
 
-    protected static class Result {
-        int distance;
-        int[][] editDistanceMatrix;
-
-        Result(int distance, int[][] editDistanceMatrix) {
-            this.distance = distance;
-            this.editDistanceMatrix = editDistanceMatrix;
-        }
-    }
+    public record Result(int distance, int[][] editDistanceMatrix) { }
 
     public static void main(String[] args) {
         Result result = getMinimalDistanceCalculationResult(args[0], args[1]);
