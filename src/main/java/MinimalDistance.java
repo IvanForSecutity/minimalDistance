@@ -4,12 +4,18 @@ import java.util.List;
 
 public class MinimalDistance {
 
-    public record Result(int distance, int[][] editDistanceMatrix) { }
+    protected record Result(int distance, int[][] editDistanceMatrix) { }
 
     public static void main(String[] args) {
+        if (args.length != 2) {
+            System.err.println("Please provide exactly two strings as arguments.");
+            return;
+        }
+
         Result result = getMinimalDistanceCalculationResult(args[0], args[1]);
         System.out.println("Minimal distance: " + result.distance);
         List<String> transformationTrack = getTransformationTrack(args[0], args[1], result);
+        System.out.print("Transformation track: " + result.distance);
         for (String step : transformationTrack) {
             System.out.println(step);
         }

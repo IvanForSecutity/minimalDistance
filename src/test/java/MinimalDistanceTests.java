@@ -60,7 +60,7 @@ public class MinimalDistanceTests {
     }
 
     @Test
-    public void testGetTransformationTrackExample3() {
+    public void testGetTransformationTrackOneWordEmpty() {
         String word1 = "";
         String word2 = "irror";
         MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult(word1, word2);
