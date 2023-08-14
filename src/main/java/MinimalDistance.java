@@ -15,15 +15,6 @@ public class MinimalDistance {
         }
     }
 
-    public static String[] insertIntoArray(String[] array, int index, String newItem) {
-        String[] result = new String[array.length + 1];
-        System.arraycopy(array, 0, result, 0, index);
-        result[index] = newItem;
-        System.arraycopy(array, index, result, index + 1, array.length - index);
-        return result;
-    }
-
-
     public static Result getMinimalDistanceCalculationResult(String word1, String word2) {
         int firstWordLength = word1.length();
         int secondWordLength = word2.length();
@@ -57,9 +48,9 @@ public class MinimalDistance {
         int[][] editDistanceMatrix = result.editDistanceMatrix;
         int currentWord1Index = word1.length();
         int currentWord2Index = word2.length();
-        String[] currentWord = word2.split("");
+        StringBuilder currentWord = new StringBuilder(word2);
 
-        transformationSteps.add(String.join("", currentWord));
+        transformationSteps.add(currentWord.toString());
         while (distance > 0) {
             int deletion = currentWord2Index >= 1
                     ? editDistanceMatrix[currentWord1Index][currentWord2Index - 1]
@@ -72,21 +63,21 @@ public class MinimalDistance {
                     : Integer.MAX_VALUE;
 
             if (substitution < distance) {
-                currentWord[currentWord2Index - 1] = Character.toString(word1.charAt(currentWord1Index - 1));
+                currentWord.setCharAt(currentWord2Index - 1, word1.charAt(currentWord1Index - 1));
                 currentWord1Index--;
                 currentWord2Index--;
                 distance = substitution;
-                transformationSteps.add(String.join("", currentWord));
+                transformationSteps.add(currentWord.toString());
             } else if (deletion < distance) {
-                currentWord[currentWord2Index - 1] = "";
+                currentWord.deleteCharAt(currentWord2Index - 1);
                 currentWord2Index--;
                 distance = deletion;
-                transformationSteps.add(String.join("", currentWord));
+                transformationSteps.add(currentWord.toString());
             } else if (insertion < distance) {
-                currentWord = insertIntoArray(currentWord, currentWord2Index, Character.toString(word1.charAt(currentWord1Index - 1)));
+                currentWord.insert(currentWord2Index, word1.charAt(currentWord1Index - 1));
                 currentWord1Index--;
                 distance = insertion;
-                transformationSteps.add(String.join("", currentWord));
+                transformationSteps.add(currentWord.toString());
             } else {
                 currentWord1Index--;
                 currentWord2Index--;
