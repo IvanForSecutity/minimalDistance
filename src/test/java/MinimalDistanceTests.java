@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MinimalDistanceTests {
 
-    //TODO: in task description, w1 should be converted to w2, but in the minimalDistance, w2 is converted to w1
-
     @Test
     public void testFirstWordEmpty() {
         assertEquals(6, MinimalDistance.getMinimalDistanceCalculationResult("", "kitten").distance);
@@ -41,10 +39,56 @@ public class MinimalDistanceTests {
 
     @Test
     public void testGetTransformationTrackExample() {
-        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult("kitten", "sitting");
-        List<String> transformationTrack = MinimalDistance.getTransformationTrack("kitten", "sitting", result);
+        String word1 = "kitten";
+        String word2 = "sitting";
+        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult(word1, word2);
+        List<String> transformationTrack = MinimalDistance.getTransformationTrack(word1, word2, result);
 
-        List<String> expectedTrack = Arrays.asList("sitting", "sittin", "sitten", "kitten");
+        List<String> expectedTrack = Arrays.asList(word1, "sitten", "sittin", word2);
+        assertEquals(expectedTrack, transformationTrack);
+    }
+
+    @Test
+    public void testGetTransformationTrackExample2() {
+        String word1 = "mirror";
+        String word2 = "irror";
+        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult(word1, word2);
+        List<String> transformationTrack = MinimalDistance.getTransformationTrack(word1, word2, result);
+
+        List<String> expectedTrack = Arrays.asList(word1, word2);
+        assertEquals(expectedTrack, transformationTrack);
+    }
+
+    @Test
+    public void testGetTransformationTrackExample3() {
+        String word1 = "";
+        String word2 = "irror";
+        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult(word1, word2);
+        List<String> transformationTrack = MinimalDistance.getTransformationTrack(word1, word2, result);
+
+        List<String> expectedTrack = Arrays.asList(word1, "i", "ir", "irr", "irro", word2);
+        assertEquals(expectedTrack, transformationTrack);
+    }
+
+    @Test
+    public void testGetTransformationTrackBothEmpty() {
+        String word1 = "";
+        String word2 = "";
+        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult(word1, word2);
+        List<String> transformationTrack = MinimalDistance.getTransformationTrack(word1, word2, result);
+
+        List<String> expectedTrack = List.of(word1);
+        assertEquals(expectedTrack, transformationTrack);
+    }
+
+    @Test
+    public void testGetTransformationTrackSame() {
+        String word1 = "hello";
+        String word2 = "hello";
+        MinimalDistance.Result result = MinimalDistance.getMinimalDistanceCalculationResult(word1, word2);
+        List<String> transformationTrack = MinimalDistance.getTransformationTrack(word1, word2, result);
+
+        List<String> expectedTrack = List.of(word1);
         assertEquals(expectedTrack, transformationTrack);
     }
 
