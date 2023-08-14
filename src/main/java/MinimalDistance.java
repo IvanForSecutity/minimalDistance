@@ -14,8 +14,9 @@ public class MinimalDistance {
 
         Result result = getMinimalDistanceCalculationResult(args[0], args[1]);
         System.out.println("Minimal distance: " + result.distance);
+
         List<String> transformationTrack = getTransformationTrack(args[0], args[1], result);
-        System.out.print("Transformation track: " + result.distance);
+        System.out.println("Transformation track: ");
         for (String step : transformationTrack) {
             System.out.println(step);
         }
