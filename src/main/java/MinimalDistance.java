@@ -7,15 +7,17 @@ public class MinimalDistance {
     record Result(int distance, int[][] editDistanceMatrix) { }
 
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.err.println("Please provide exactly two strings as arguments.");
+        if (args.length != 2 || args[0] == null || args[1] == null) {
+            System.err.println("Please provide exactly two non-null strings as arguments.");
             return;
         }
 
-        Result result = getMinimalDistanceCalculationResult(args[0], args[1]);
+        String word1 = args[0];
+        String word2 = args[1];
+        Result result = getMinimalDistanceCalculationResult(word1, word2);
         System.out.println("Minimal distance: " + result.distance);
 
-        List<String> transformationTrack = getTransformationTrack(args[0], args[1], result);
+        List<String> transformationTrack = getTransformationTrack(word1, word2, result);
         System.out.println("Transformation track: ");
         for (String step : transformationTrack) {
             System.out.println(step);
@@ -23,10 +25,6 @@ public class MinimalDistance {
     }
 
     public static Result getMinimalDistanceCalculationResult(String word1, String word2) {
-        if (word1 == null || word2 == null) {
-            throw new IllegalArgumentException("Both words must be non-null.");
-        }
-
         int firstWordLength = word1.length();
         int secondWordLength = word2.length();
         int[][] editDistanceMatrix = new int[firstWordLength + 1][secondWordLength + 1];
@@ -34,8 +32,8 @@ public class MinimalDistance {
 
         for (int i = 1; i <= firstWordLength; i++) {
             for (int j = 1; j <= secondWordLength; j++) {
-                int insertion = editDistanceMatrix[i][j - 1] + 1;
-                int deletion = editDistanceMatrix[i - 1][j] + 1;
+                int deletion = editDistanceMatrix[i][j - 1] + 1;
+                int insertion = editDistanceMatrix[i - 1][j] + 1;
                 int substitution = editDistanceMatrix[i - 1][j - 1] + (word1.charAt(i - 1) == word2.charAt(j - 1) ? 0 : 1);
 
                 editDistanceMatrix[i][j] = Math.min(Math.min(deletion, insertion), substitution);
