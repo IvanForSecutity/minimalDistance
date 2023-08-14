@@ -23,6 +23,10 @@ public class MinimalDistance {
     }
 
     public static Result getMinimalDistanceCalculationResult(String word1, String word2) {
+        if (word1 == null || word2 == null) {
+            throw new IllegalArgumentException("Both words must be non-null.");
+        }
+
         int firstWordLength = word1.length();
         int secondWordLength = word2.length();
         int[][] editDistanceMatrix = new int[firstWordLength + 1][secondWordLength + 1];
